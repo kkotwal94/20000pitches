@@ -11,7 +11,7 @@ var Header = require('../../public/assets/header.server');
 var App = require('../../public/assets/app.server');
 var useragent = require('express-useragent');
 
-module.exports = function(app, passport) {
+module.exports = function(app, io, passport) {
   // user routes
   app.post('/login', users.postLogin);
   app.post('/signup', users.postSignUp);
@@ -94,6 +94,19 @@ module.exports = function(app, passport) {
     res.contentType = "text/html; charset=utf8";
     
     res.end(html);
+  });
+
+  io.on('connection', function(socket) {
+    console.log("User has connected");
+    socket.emit('news', { hello: 'world'});
+    
+    socket.on('my other event', function(data) {
+      console.log(data);
+    });
+
+    socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
   });
 
 };

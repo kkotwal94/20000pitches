@@ -3,8 +3,10 @@ var fs = require('fs');
 var mongoose = require('mongoose');
 var passport = require('passport');
 var secrets = require('./config/secrets');
-
 var app = express();
+var http = require('http').Server(app);
+var port = app.get('port');
+var io = require('socket.io')(http); //socket io
 
 // Find the appropriate database to connect to, default to localhost if not found.
 var connect = function() {
@@ -32,7 +34,9 @@ require('./config/passport')(app, passport);
 // Bootstrap application settings
 require('./config/express')(app, passport);
 // Bootstrap routes
-require('./config/routes')(app, passport);
+require('./config/routes')(app, io, passport);
 
 
-app.listen(app.get('port'));
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
