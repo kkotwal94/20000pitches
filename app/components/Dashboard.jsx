@@ -1,9 +1,13 @@
 import React from 'react';
 import Link from 'react-router';
+import UserActions from 'actions/UserActions';
+import UserStore from 'stores/UserStore';
 import FullWidthSection from 'components/FullWidthSection';
+import LoginSignupPage from 'components/LoginSignupPage';
 const { AppBar,
       AppCanvas,
       FontIcon,
+      Dialog,
       IconButton,
       EnhancedButton,
       Menu,
@@ -24,23 +28,48 @@ export default class Dashboard extends React.Component {
 
   constructor(props) {
   	super(props);
-	//const muiTheme = ThemeManager.getMuiTheme(DefaultRawTheme);
-  	//this.state = {muiTheme: ThemeManager.getMuiTheme(DefaultRawTheme)};
+	  this.state = UserStore.getState();
+    this.state.open = false;
+    
+  }
+
+
+handleDialogOpen = () => {
+    this.setState({open: true});
+    //alert("hellow world");
+  }
+  
+
+  handleDialogClose = () => {
+    this.setState({open: false});
   }
 
  static contextTypes = {
         router: React.PropTypes.func
     }
 
-  componentWillMount() {
-  	/*(let newMuiTheme = this.state.muiTheme;
-  	this.setState({
-      muiTheme: newMuiTheme
-  });*/
+  componentDidMount() {
+    UserStore.listen(this._onChange);
+    let socket = io();
+    console.log(socket);
+  }
+
+   componentWillUnmount() {
+    UserStore.unlisten(this._onChange);
+  }
+
+   _onChange = () => {
+    this.setState({
+      user: UserStore.getState().user
+    });
   }
   
   componentWillReceiveProps(nextProps, nextContext) {
 
+  }
+
+  _createPitch = () => {
+    this.context.history.pushState(null, '/pitch');
   }
 
   _ATransition = () => {
@@ -180,25 +209,40 @@ export default class Dashboard extends React.Component {
     };
 
 
+
+
+let dialogStyle = {
+
+  root: {
+    width: '100%'
+  },
+
+  mainDialog: {
+    backgroundColor: "#2F2F2F"
+  }
+
+};
+
     let styles = this.getStyles();
 
-    return (
+    let renderedResult;
+
+    if(this.state.user.get('authenticated')) {
+      renderedResult = (
         <div style={{backgroundColor: "#2F2F2F"}}>
         <Paper zDepth={1}
              rounded={false}
              style={style.root}
         >
         <img style={style.svgLogo} src={chromecon}></img>
-        <h2>20,000 Pitches</h2>
-        <h2>Have a idea boiling in your head?</h2>
-        <h2>Do you want to tell someone else about it?</h2>
-        <h2>Then register and give your own pitch by uploading a 30 second video describing your idea!</h2>
+        <h1>20,000 Pitches</h1>
+        <h1>Get started right away by creating your own pitch!</h1>
 
         <RaisedButton
-          label="Register"
+          label="Create Pitch"
           primary={true}
           linkButton={false}
-          onTouchTap={this._openDialog}
+          onTouchTap={this._createPitch}
           />
 
         </Paper>
@@ -215,6 +259,61 @@ export default class Dashboard extends React.Component {
           
         </FullWidthSection>
         
+        </div>
+        );
+    }
+
+    else {
+      renderedResult = (
+        <div style={{backgroundColor: "#2F2F2F"}}>
+        <Paper zDepth={1}
+             rounded={false}
+             style={style.root}
+        >
+        <img style={style.svgLogo} src={chromecon}></img>
+        <h2>20,000 Pitches</h2>
+        <h2>Have a idea boiling in your head?</h2>
+        <h2>Do you want to tell someone else about it?</h2>
+        <h2>Then register and give your own pitch by uploading a 30 second video describing your idea!</h2>
+
+        <RaisedButton
+          label="Register"
+          primary={true}
+          linkButton={false}
+          onTouchTap={this.handleDialogOpen}
+          />
+
+        </Paper>
+
+
+        {this._getHomePurpose()}
+        {this._getChatBox()}
+        <FullWidthSection style={styles.footer}>
+          <p style={styles.p}>
+            Programmed and Developed by Karan Kotwal based of Material Design(Material-UI)
+            <br/>
+            <a style={styles.a} href="http://kkotwal.me">Karan Kotwal</a> 
+          </p>
+          
+        </FullWidthSection>
+        
+        </div>
+        );
+    }
+
+    return (
+        <div style={{backgroundColor: "#2F2F2F"}}>
+        {renderedResult}
+        <Dialog
+          
+          
+          bodyStyle={dialogStyle.mainDialog}
+          contentStyle={dialogStyle.root}
+          modal={false}
+          onRequestClose={this.handleDialogClose}
+          open={this.state.open}>
+          <LoginSignupPage />
+        </Dialog>
         </div>
     );
   }

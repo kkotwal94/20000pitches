@@ -105,6 +105,7 @@ export default class Navigation extends React.Component {
       this.context.history.isActive('/gallery') ? '2' : 
       this.context.history.isActive('/profile') ? '3' :
       //this.context.history.isActive('/login') ? '4' :
+      this.context.history.isActive('/pitch') ? '7' :
       this.context.history.isActive('/about') ? '5' : '';
   }
 
@@ -226,6 +227,11 @@ _getTabs() {
                 style={styles.tab}
                 route="/profile"/>
               <Tab
+                value="7"
+                label="PITCH"
+                style={styles.tab}
+                route="/pitch"/>
+              <Tab
                 value="6"
                 label="LOGOUT"
                 style={styles.tab}
@@ -311,6 +317,7 @@ _getAppBar() {
       this.context.history.isActive('/') ? 'Dashboard' :
       this.context.history.isActive('/gallery') ? 'Gallery' : 
       this.context.history.isActive('/profile') ? 'Profile' :
+      this.context.history.isActive('/pitch') ? 'Create Pitch' :
      // this.context.history.isActive('/login') ? 'Login' : '':
       this.context.history.isActive('/about') ? 'About' : '';
  
@@ -386,6 +393,7 @@ let title =
       this.context.history.isActive('/') ? 'Dashboard' :
       this.context.history.isActive('/gallery') ? 'Gallery' : 
       this.context.history.isActive('/profile') ? 'Profile' :
+      this.context.history.isActive('/pitch') ? 'Create Pitch' :
       //this.context.history.isActive('/login') ? 'Login' : 
       this.context.history.isActive('/about') ? 'About' : '';
 
@@ -433,6 +441,10 @@ let title =
           <ListItem
             value="/profile"
             primaryText="Profile"/>
+
+          <ListItem
+            value="/pitch"
+            primaryText="Pitch"/>
 
           <ListItem
             value="null"
@@ -517,6 +529,7 @@ let title =
      return this.context.history.isActive('/') ? 'Dashboard' :
       this.context.history.isActive('/gallery') ? 'Gallery' : 
       this.context.history.isActive('/profile') ? 'Profile' :
+      this.context.history.isActive('/pitch') ? 'Pitch' :
       //this.context.history.isActive('/login') ? 'Login' : 
       this.context.history.isActive('/about') ? 'About' : '';
       
