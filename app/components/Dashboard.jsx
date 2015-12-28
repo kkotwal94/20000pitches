@@ -4,14 +4,21 @@ import UserActions from 'actions/UserActions';
 import UserStore from 'stores/UserStore';
 import FullWidthSection from 'components/FullWidthSection';
 import LoginSignupPage from 'components/LoginSignupPage';
+import io from 'socket.io-client';
+import styles from 'scss/components/_chat.scss';
+import MobileTearSheet from 'components/MobileTearSheet';
 const { AppBar,
       AppCanvas,
+       Avatar,
       FontIcon,
       Dialog,
       IconButton,
       EnhancedButton,
       Menu,
       Mixins,
+      Divider,
+      ListItem,
+      List,
       RaisedButton,
       Styles,
       Tab,
@@ -22,6 +29,8 @@ const { StylePropable } = Mixins;
 const { Colors, Spacing, Typography } = Styles;
 import {PropTypes} from 'react-router';
 import chromecon from 'images/chrome.png';
+
+let socket = io('http://localhost:3000');
 export default class Dashboard extends React.Component {
 
   
@@ -30,7 +39,10 @@ export default class Dashboard extends React.Component {
   	super(props);
 	  this.state = UserStore.getState();
     this.state.open = false;
-    
+    console.log(socket);
+    socket.on('news', function(data) {
+        console.log(data);
+    });
   }
 
 
@@ -50,8 +62,8 @@ handleDialogOpen = () => {
 
   componentDidMount() {
     UserStore.listen(this._onChange);
-    let socket = io();
-    console.log(socket);
+    //let socket = io();
+    //console.log(socket);
   }
 
    componentWillUnmount() {
@@ -181,10 +193,102 @@ handleDialogOpen = () => {
         useContent={true}
         contentStyle={styles.content}
         contentType="p"
-        className="chatbox">
+        className="chatboxs">
         Chat at our chatbox HERE!
         [Insert ChatBox Here]
-        
+
+
+          <MobileTearSheet>
+            <List subheader="Today">
+              <ListItem
+                leftAvatar={<Avatar src={chromecon} />}
+                primaryText="Karan Kotwal"
+                secondaryText={
+                  <p>
+                    <span style={{color: Colors.darkBlack}}>Brendan Lim</span> --
+                    I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?
+                  </p>
+                }
+                secondaryTextLines={2} />
+              <Divider inset={true} />
+              <ListItem
+                leftAvatar={<Avatar src={chromecon} />}
+                primaryText="James Harding"
+                secondaryText={
+                  <p>
+                    <span style={{color: Colors.darkBlack}}>to me, Scott, Jennifer</span> --
+                    Wish I could come, but I&apos;m out of town this weekend.
+                  </p>
+                }
+                secondaryTextLines={2} />
+              <Divider inset={true} />
+              <ListItem
+                leftAvatar={<Avatar src={chromecon} />}
+                primaryText="Bobbafett"
+                secondaryText={
+                  <p>
+                    <span style={{color: Colors.darkBlack}}>Grace Ng</span> --
+                    Do you have Paris recommendations? Have you ever been?
+                  </p>
+                }
+                secondaryTextLines={2} />
+              <Divider inset={true} />
+              <ListItem
+                leftAvatar={<Avatar src={chromecon} />}
+                primaryText="Willusddddddddddddddddddddddddddd"
+                secondaryText={
+                  <p>
+                    <span style={{color: Colors.darkBlack}}>Kerem Suer</span> --
+                    Do you have any ideas what we can get Heidi for her birthday? How about a pony?
+                  </p>
+                }
+                secondaryTextLines={2} />
+              <Divider inset={true} />
+              <ListItem
+                leftAvatar={<Avatar src={chromecon} />}
+                primaryText="Vader"
+                secondaryText={
+                  <p>
+                    <span style={{color: Colors.darkBlack}}>Raquel Parrado</span> --
+                    We should eat this: grated squash. Corn and tomatillo tacos.
+                  </p>
+                }
+                secondaryTextLines={2} />
+                 <Divider inset={true} />
+              <ListItem
+                leftAvatar={<Avatar src={chromecon} />}
+                primaryText="Vader"
+                secondaryText={
+                  <p>
+                    <span style={{color: Colors.darkBlack}}>Raquel Parrado</span> --
+                    We should eat this: grated squash. Corn and tomatillo tacos.
+                  </p>
+                }
+                secondaryTextLines={2} />
+                 <Divider inset={true} />
+              <ListItem
+                leftAvatar={<Avatar src={chromecon} />}
+                primaryText="Vader"
+                secondaryText={
+                  <p>
+                    <span style={{color: Colors.darkBlack}}>Raquel Parrado</span> --
+                    We should eat this: grated squash. Corn and tomatillo tacos.
+                  </p>
+                }
+                secondaryTextLines={2} />
+                 <Divider inset={true} />
+              <ListItem
+                leftAvatar={<Avatar src={chromecon} />}
+                primaryText="Vader"
+                secondaryText={
+                  <p>
+                    <span style={{color: Colors.darkBlack}}>Raquel Parrado</span> --
+                    We should eat this: grated squash. Corn and tomatillo tacos.
+                  </p>
+                }
+                secondaryTextLines={2} />
+            </List>
+          </MobileTearSheet>        
       </FullWidthSection>
     );
   }
