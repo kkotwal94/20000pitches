@@ -13,6 +13,10 @@ var useragent = require('express-useragent');
 
 module.exports = function(app, io, passport) {
   // user routes
+  var usernames = {};
+  var numUsers = 0;
+  var rooms = ['Lobby','Dota 2 Chat','Joke Chat'];
+  
   app.post('/login', users.postLogin);
   app.post('/signup', users.postSignUp);
   app.get('/logout', users.getLogout);
@@ -60,7 +64,7 @@ module.exports = function(app, io, passport) {
       if(!err) {
         var topicmap = _.indexBy(topics, 'id');
         // We don't want to be seeding and generating markup with user information
-        var user = req.user ? { authenticated: true, isWaiting: false } : { authenticated: false, isWaiting: false };
+        var user = req.user ? { authenticated: true, isWaiting: false, email: req.user.email, id: req.user._id, profile: req.user.profile} : { authenticated: false, isWaiting: false };
         // An object that contains response local variables scoped to the request, and therefore available only to the view(s) rendered during
         // that request/response cycle (if any). Otherwise, this property is identical to app.locals
         // This property is useful for exposing request-level information such as request path name, authenticated user, user settings, and so on.
@@ -97,16 +101,80 @@ module.exports = function(app, io, passport) {
   });
 
   io.on('connection', function(socket) {
-    console.log("User has connected");
-    socket.emit('news', { hello: 'world'});
-    
-    socket.on('my other event', function(data) {
-      console.log(data);
-    });
 
-    socket.on('disconnect', function(){
-    console.log('user disconnected');
+  socket.on('adduser', function(username) {
+    socket.username = username;
+    //adding our name to the global scope
+    //console.log(username);
+    socket.room = 'Lobby';
+    usernames[username] = username;
+    io.emit('updateusers', usernames);
+    //usernames[username] = socket;
+    //say this user has connected to client
+    socket.join('Lobby');
+    numUsers++;
+    socket.broadcast.emit('chat message', socket.username + ' has connected to the room')
+    socket.broadcast.to('Lobby').emit('chat message', socket.username+' has connected to this Lobby');
+    socket.emit('updaterooms',rooms,'Lobby');
+
+});
+//creating our own server?
+  socket.on('create', function(room) {
+    rooms.push(room);
+    socket.emit('updaterooms', rooms, socket.room);
   });
+  
+
+socket.on('changenickname', function(new_username) {
+   var temp;
+   temp = usernames[socket.username];
+   delete usernames[socket.username];
+   socket.username = new_username;
+   usernames[new_username] = new_username;
+   io.emit('updateusers', usernames);
+   //usernames[new_username] = socket;
+   io.emit('chat message', temp +' has changed his name to ' + socket.username)
   });
+
+  socket.on('chat message', function(msg) {
+   socket.broadcast.emit('chat message',  msg);
+});
+
+  socket.on('switchRoom', function(newroom) {
+  var oldroom;
+  oldroom = socket.room;
+  socket.leave(socket.room);
+  socket.join(newroom);
+  socket.emit('chat message', 'you have connected to ' + newroom);
+  socket.broadcast.to(oldroom).emit('chat message', socket.username + ' has left this room');
+  socket.room = newroom;
+  socket.broadcast.to(newroom).emit('chat message', socket.username+' has joined the room!');
+  socket.emit('updaterooms',rooms, newroom);
+  });
+
+  socket.on('disconnect', function() {
+    //removes the username from global array of username
+    delete usernames[socket.username];
+    numUsers--;
+    //update list of users in chat, client side
+    io.emit('updateusers', usernames);
+    //tell chat room user has left
+    socket.broadcast.emit('chat message', socket.username + ' has disconnected');
+    socket.leave(socket.room);
+});
+  
+ socket.on('removeRoom', function(currRoom, nextRoom) {
+  for (var i = 0; i < rooms.length; i++)  { //cant delete lobby!
+     if (rooms[i] === currRoom){
+       rooms[i] = nextRoom;
+  } 
+    }
+   
+});
+   socket.on('getUsers', function() {
+  socket.emit('updateusers', usernames);
+  });
+
+});
 
 };

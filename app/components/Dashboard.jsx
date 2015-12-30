@@ -7,6 +7,7 @@ import LoginSignupPage from 'components/LoginSignupPage';
 import io from 'socket.io-client';
 import styles from 'scss/components/_chat.scss';
 import MobileTearSheet from 'components/MobileTearSheet';
+import $ from 'jquery';
 const { AppBar,
       AppCanvas,
        Avatar,
@@ -22,6 +23,7 @@ const { AppBar,
       RaisedButton,
       Styles,
       Tab,
+      TextField,
       Tabs,
       Paper} = require('material-ui');
 
@@ -39,6 +41,7 @@ export default class Dashboard extends React.Component {
   	super(props);
 	  this.state = UserStore.getState();
     this.state.open = false;
+    this.state.chat = ["Welcome to the chat", "Karan Kotwal: jajajajajaaj", "Mike: lololololololololol"];
     console.log(socket);
     socket.on('news', function(data) {
         console.log(data);
@@ -56,12 +59,48 @@ handleDialogOpen = () => {
     this.setState({open: false});
   }
 
+  handleSubmit = (event) => {
+    event.preventDefault();
+    //our message we entered
+    if(!this.state.user.get('authenticated')) {
+      this.setState({open: true});
+    }
+
+    else {
+    let newMessage =this.state.user.get('profile').get('firstName') + " " + this.state.user.get('profile').get('lastName')+ ": " + this.refs.chatInput.getValue();
+    //old chat list
+    socket.emit('chat message', newMessage);
+    let prevChat = this.state.chat;
+    prevChat.push(newMessage);
+    this.refs.chatInput.setValue('');
+    this.setState({
+      chat: prevChat
+    });
+    $('#chat').animate({
+        scrollTop: $('#chat')[0].scrollHeight});
+    
+    return false; 
+    }
+  }
+
  static contextTypes = {
         router: React.PropTypes.func
     }
 
   componentDidMount() {
     UserStore.listen(this._onChange);
+    console.log(this.state.chat);
+    socket.on('chat message', (msg) => {
+      let chat = this.state.chat;
+      chat.push(msg);
+      console.log(msg);
+      this.setState({chat: chat});
+      $('#chat').animate({
+        scrollTop: $('#chat')[0].scrollHeight});
+    });
+    if(this.state.user.get('authenticated')) {
+      socket.emit('adduser', this.state.user.get('profile').get('firstName') + " " + this.state.user.get('profile').get('lastName'));
+    }
     //let socket = io();
     //console.log(socket);
   }
@@ -180,13 +219,13 @@ handleDialogOpen = () => {
         fontSize: 20,
         lineHeight: '28px',
         paddingTop: 19,
-        height: '400px',
+        height: '100px',
         marginBottom: 13,
         letterSpacing: 0,
         color: Typography.textDarkBlack,
       }
   };
-
+  let chatMessages = this.state.chat;
   return (
       <FullWidthSection
         style={styles.root}
@@ -194,101 +233,29 @@ handleDialogOpen = () => {
         contentStyle={styles.content}
         contentType="p"
         className="chatboxs">
-        Chat at our chatbox HERE!
-        [Insert ChatBox Here]
+        <strong>Chat at our chatbox HERE!
+        [Insert ChatBox Here]</strong>
+        <Paper
+          zDepth={2}
+          className="chat"
+          id ="chat"
+          style={{width:"50%", margin: "0 auto", height: "400px", overflow: "scroll"}}
+          >
+          <ul style={{listStyleType: 'none', margin:"0", padding: "0"}}>
+          {chatMessages.map((message) =>
+            <li>{message}</li>
+            )}
+          </ul>
+          </Paper>
 
-
-          <MobileTearSheet>
-            <List subheader="Today">
-              <ListItem
-                leftAvatar={<Avatar src={chromecon} />}
-                primaryText="Karan Kotwal"
-                secondaryText={
-                  <p>
-                    <span style={{color: Colors.darkBlack}}>Brendan Lim</span> --
-                    I&apos;ll be in your neighborhood doing errands this weekend. Do you want to grab brunch?
-                  </p>
-                }
-                secondaryTextLines={2} />
-              <Divider inset={true} />
-              <ListItem
-                leftAvatar={<Avatar src={chromecon} />}
-                primaryText="James Harding"
-                secondaryText={
-                  <p>
-                    <span style={{color: Colors.darkBlack}}>to me, Scott, Jennifer</span> --
-                    Wish I could come, but I&apos;m out of town this weekend.
-                  </p>
-                }
-                secondaryTextLines={2} />
-              <Divider inset={true} />
-              <ListItem
-                leftAvatar={<Avatar src={chromecon} />}
-                primaryText="Bobbafett"
-                secondaryText={
-                  <p>
-                    <span style={{color: Colors.darkBlack}}>Grace Ng</span> --
-                    Do you have Paris recommendations? Have you ever been?
-                  </p>
-                }
-                secondaryTextLines={2} />
-              <Divider inset={true} />
-              <ListItem
-                leftAvatar={<Avatar src={chromecon} />}
-                primaryText="Willusddddddddddddddddddddddddddd"
-                secondaryText={
-                  <p>
-                    <span style={{color: Colors.darkBlack}}>Kerem Suer</span> --
-                    Do you have any ideas what we can get Heidi for her birthday? How about a pony?
-                  </p>
-                }
-                secondaryTextLines={2} />
-              <Divider inset={true} />
-              <ListItem
-                leftAvatar={<Avatar src={chromecon} />}
-                primaryText="Vader"
-                secondaryText={
-                  <p>
-                    <span style={{color: Colors.darkBlack}}>Raquel Parrado</span> --
-                    We should eat this: grated squash. Corn and tomatillo tacos.
-                  </p>
-                }
-                secondaryTextLines={2} />
-                 <Divider inset={true} />
-              <ListItem
-                leftAvatar={<Avatar src={chromecon} />}
-                primaryText="Vader"
-                secondaryText={
-                  <p>
-                    <span style={{color: Colors.darkBlack}}>Raquel Parrado</span> --
-                    We should eat this: grated squash. Corn and tomatillo tacos.
-                  </p>
-                }
-                secondaryTextLines={2} />
-                 <Divider inset={true} />
-              <ListItem
-                leftAvatar={<Avatar src={chromecon} />}
-                primaryText="Vader"
-                secondaryText={
-                  <p>
-                    <span style={{color: Colors.darkBlack}}>Raquel Parrado</span> --
-                    We should eat this: grated squash. Corn and tomatillo tacos.
-                  </p>
-                }
-                secondaryTextLines={2} />
-                 <Divider inset={true} />
-              <ListItem
-                leftAvatar={<Avatar src={chromecon} />}
-                primaryText="Vader"
-                secondaryText={
-                  <p>
-                    <span style={{color: Colors.darkBlack}}>Raquel Parrado</span> --
-                    We should eat this: grated squash. Corn and tomatillo tacos.
-                  </p>
-                }
-                secondaryTextLines={2} />
-            </List>
-          </MobileTearSheet>        
+          <form ref="form" onSubmit={this.handleSubmit} style={{margin: "0 auto", textAlign: 'center' }}>
+            <TextField
+            style={{margin: "0 auto", width:"50%"}}
+             hintText="Start chatting by typing in here, make sure you are logged in!"
+             ref="chatInput"
+              />
+          </form>
+                  
       </FullWidthSection>
     );
   }
