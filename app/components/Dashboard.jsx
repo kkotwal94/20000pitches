@@ -41,7 +41,7 @@ export default class Dashboard extends React.Component {
   	super(props);
 	  this.state = UserStore.getState();
     this.state.open = false;
-    this.state.chat = ["Welcome to the chat", "Karan Kotwal: jajajajajaaj", "Mike: lololololololololol"];
+    this.state.chat = [];
     console.log(socket);
     socket.on('news', function(data) {
         console.log(data);
@@ -78,7 +78,7 @@ handleDialogOpen = () => {
     });
     $('#chat').animate({
         scrollTop: $('#chat')[0].scrollHeight});
-    
+
     return false; 
     }
   }
@@ -241,7 +241,7 @@ handleDialogOpen = () => {
           id ="chat"
           style={{width:"50%", margin: "0 auto", height: "400px", overflow: "scroll"}}
           >
-          <ul style={{listStyleType: 'none', margin:"0", padding: "0"}}>
+          <ul style={{listStyleType: 'none', margin:"0", padding: "0", wordWrap : "break-word"}}>
           {chatMessages.map((message) =>
             <li>{message}</li>
             )}
