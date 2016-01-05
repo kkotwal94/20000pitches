@@ -22,6 +22,12 @@ exports.postLogin = function(req, res, next) {
 };
 
 
+exports.getProfile = function(req, res, next) {
+
+  var user = req.user.profile;
+  res.json(user);
+}
+
 /**
  * GET /logout
  */

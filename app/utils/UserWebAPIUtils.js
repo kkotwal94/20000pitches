@@ -35,6 +35,13 @@ const utils = {
       contentType: 'application/json',
       data: JSON.stringify(data)
     });
+  },
+
+  getProfile: () => {
+    return $.ajax({
+      url:'/getProfile',
+      type: 'GET'
+    });
   }
 
 };

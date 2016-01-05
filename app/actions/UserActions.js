@@ -26,6 +26,7 @@ class UserActions {
 
   loginsuccess(email) {
     this.dispatch(email);
+    this.actions.getProfile();
   }
 
   loginerror(){
@@ -53,6 +54,26 @@ class UserActions {
   registerError(){
     this.dispatch();
   }
+
+  getProfile(){
+    this.dispatch();
+    UserWebAPIUtils.getProfile().done((data) => {
+      this.actions.getProfileSuccess(data);
+    })
+    .fail((errorMessage) => {
+      this.actions.getProfileError(errorMessage);
+    });
+  }
+
+  getProfileSuccess(data) {
+    this.dispatch(data);
+  }
+
+  getProfileError(errorMessage) {
+    this.dispatch(errorMessage);
+  }
+
+
 
   logout() {
     this.dispatch();

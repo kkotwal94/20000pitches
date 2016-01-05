@@ -67,7 +67,13 @@ handleDialogOpen = () => {
     }
 
     else {
-    let newMessage =this.state.user.get('profile').get('firstName') + " " + this.state.user.get('profile').get('lastName')+ ": " + this.refs.chatInput.getValue();
+      let newMessage;
+      if(this.state.user.get('data') === undefined) {
+        newMessage =this.state.user.get('profile').get('firstName') + " " + this.state.user.get('profile').get('lastName')+ ": " + this.refs.chatInput.getValue();
+      }
+      else {
+        newMessage =this.state.user.get('data').get('firstName') + " " + this.state.user.get('data').get('lastName')+ ": " + this.refs.chatInput.getValue();
+      }
     //old chat list
     socket.emit('chat message', newMessage);
     let prevChat = this.state.chat;
@@ -99,7 +105,12 @@ handleDialogOpen = () => {
         scrollTop: $('#chat')[0].scrollHeight});
     });
     if(this.state.user.get('authenticated')) {
-      socket.emit('adduser', this.state.user.get('profile').get('firstName') + " " + this.state.user.get('profile').get('lastName'));
+      if(this.state.user.get('data') === undefined) {
+        socket.emit('adduser', this.state.user.get('profile').get('firstName') + " " + this.state.user.get('profile').get('lastName'));
+      }
+      else {
+      socket.emit('adduser', this.state.user.get('data').get('firstName') + " " + this.state.user.get('data').get('lastName'));
+      }
     }
     //let socket = io();
     //console.log(socket);
@@ -262,6 +273,7 @@ handleDialogOpen = () => {
 
 
   render() {
+    console.log(this.state.user);
     let style = {
       root: {
         backgroundColor: '#2F2F2F',
@@ -278,8 +290,6 @@ handleDialogOpen = () => {
         textAlign: 'center',
       }
     };
-
-
 
 
 let dialogStyle = {

@@ -52,7 +52,10 @@ class UserStore {
       handleLogoutSuccess: UserActions.LOGOUTSUCCESS,
       handleRegisterAttempt: UserActions.REGISTER,
       handleRegisterSuccess: UserActions.REGISTER_SUCCESS,
-      handleRegisterError: UserActions.REGISTER_ERROR
+      handleRegisterError: UserActions.REGISTER_ERROR,
+      handleGetProfile: UserActions.GET_PROFILE,
+      handleGetProfileSuccess: UserActions.GET_PROFILE_SUCCESS,
+      handleGetProfileError: UserActions.GET_PROFILE_ERROR
     });
   }
 
@@ -103,6 +106,19 @@ class UserStore {
   handleLogoutSuccess() {
     this.user = this.user.merge({ isWaiting: false, authenticated: false });
     this.emitChange();
+  }
+
+  handleGetProfile() {
+    this.emitChange();
+  }
+
+  handleGetProfileSuccess(data) {
+    this.user = this.user.merge({data});
+    this.emitChange();
+  }
+
+  handleGetProfileError(errorMessage) {
+    this.emitChange(errorMessage);
   }
 
 }
