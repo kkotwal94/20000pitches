@@ -50,6 +50,10 @@ export default class Profile extends React.Component {
 
   	if(this.state.user.get('data') === undefined) {
   		firstName = this.state.user.get('profile').get('firstName');
+  		lastName = this.state.user.get('profile').get('lastName');
+  		gender = this.state.user.get('profile').get('gender');
+  		location = this.state.user.get('profile').get('location');
+  		website = this.state.user.get('profile').get('website');
   	}
 
 
