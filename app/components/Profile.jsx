@@ -3,6 +3,7 @@ import Link from 'react-router';
 import UserActions from 'actions/UserActions';
 import UserStore from 'stores/UserStore';
 import styles from 'scss/components/_about';
+import FullWidthSection from 'components/FullWidthSection';
 
 const { 
        Avatar,
@@ -46,7 +47,11 @@ export default class Profile extends React.Component {
   }
 
   getProfileInfo() {
-  	let firstName, lastName, gender, location, website;
+  	let firstName = "blah";
+  	let lastName = "blah";
+  	let gender = "loading"; 
+  	let location = "loading";
+  	let website = "loading";
 
   	if(this.state.user.get('data') === undefined) {
   		firstName = this.state.user.get('profile').get('firstName');
@@ -56,24 +61,49 @@ export default class Profile extends React.Component {
   		website = this.state.user.get('profile').get('website');
   	}
 
+  	else {
 
   	firstName = this.state.user.get('data').get('firstName');
   	lastName = this.state.user.get('data').get('lastName');
   	gender = this.state.user.get('data').get('gender');
   	location = this.state.user.get('data').get('location');
   	website = this.state.user.get('data').get('website');
+  }
 
+
+  if(firstName == "") {
+  	firstName = "Needs to be set";
+  }
+
+  if(lastName == "") {
+  	lastName = "Needs to be set";
+  }
+
+  if(gender == "") {
+  	gender = "Needs to be set";
+  }
+
+  if(location == "") {
+  	location = "Needs to be set";
+  }
+
+  if(website == "") {
+  	website = "Needs to be set";
+  }
 
   	return (
+  		<div>
+  		<h1 className={styles.about__description}> {firstName + " " + lastName + "'s Profile Page"}</h1>
   		<List>
-  		<ListItem primaryText={this.state.user.get('data').get('firstName')} />
-  		<ListItem primaryText={this.state.user.get('data').get('lastName')} />
-  		<ListItem primaryText={this.state.user.get('data').get('gender')} />
-  		<ListItem primaryText={this.state.user.get('data').get('location')} />
-  		<ListItem primaryText={this.state.user.get('data').get('Website')} />
+  		<ListItem primaryText={firstName} />
+  		<ListItem primaryText={lastName} />
+  		<ListItem primaryText={gender} />
+  		<ListItem primaryText={location} />
+  		<ListItem primaryText={website} />
 
 
   		</List>
+  		</div>
   		);
   }
 
@@ -82,8 +112,8 @@ export default class Profile extends React.Component {
 
     return (
       <div className={styles.about}>
-        <h1 className={styles.about__header}>Profile page</h1>
-        <p className={styles.about__description}>Profile stuff</p>
+        
+        
         {this.getProfileInfo()}
       </div>
     );
