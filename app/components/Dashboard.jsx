@@ -244,8 +244,7 @@ handleDialogOpen = () => {
         contentStyle={styles.content}
         contentType="p"
         className="chatboxs">
-        <strong>Chat at our chatbox HERE!
-        [Insert ChatBox Here]</strong>
+        <strong>Chat at our chatbox HERE!</strong>
         <Paper
           zDepth={2}
           className="chat"

@@ -42,6 +42,15 @@ const utils = {
       url:'/getProfile',
       type: 'GET'
     });
+  },
+
+  updateProfile: (data) => {
+    return $.ajax({
+      url: '/updateProfile',
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(data)
+    });
   }
 
 };

@@ -55,6 +55,27 @@ class UserActions {
     this.dispatch();
   }
 
+  updateProfile(data) {
+    this.dispatch();
+    UserWebAPIUtils.updateProfile(data)
+      .then((response, textStatus) => {
+        if(textStatus === 'success') {
+          this.actions.profileUpdateSuccess(data);
+        }
+        if(textStatus === 'error') {
+          this.actions.profileUpdateError(data);
+        }
+      });
+  }
+
+  profileUpdateSuccess(data) {
+    this.dispatch(data);
+  }
+
+  profileUpdateError(error) {
+    this.dispatch(error);
+  }
+
   getProfile(){
     this.dispatch();
     UserWebAPIUtils.getProfile().done((data) => {

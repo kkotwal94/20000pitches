@@ -28,6 +28,38 @@ exports.getProfile = function(req, res, next) {
   res.json(user);
 }
 
+
+exports.updateProfile = function(req, res, next) {
+  var user = req.user;
+  console.log(req.user);
+
+  if (req.body.firstName == "") {
+        req.body.firstName = req.user.profile.firstName;
+      }
+      if (req.body.lastName == "") {
+        req.body.lastName = req.user.profile.lastName;
+      }
+      if (req.body.gender == "") {
+        req.body.gender = req.user.profile.gender;
+      }
+      if (req.body.website == "") {
+        req.body.website = req.user.profile.website;
+      }
+
+      if (req.body.location == "") {
+        req.body.location = req.user.profile.location;
+      }
+
+  User.findById(req.user._id, function(err, userprofile) {
+    userprofile.profile.firstName = req.body.firstName;
+    userprofile.profile.lastName = req.body.lastName;
+    userprofile.profile.gender = req.body.gender;
+    userprofile.profile.website = req.body.website;
+    userprofile.profile.location = req.body.location;
+    userprofile.save();
+    res.end();
+  });
+}
 /**
  * GET /logout
  */

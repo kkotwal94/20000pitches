@@ -55,7 +55,10 @@ class UserStore {
       handleRegisterError: UserActions.REGISTER_ERROR,
       handleGetProfile: UserActions.GET_PROFILE,
       handleGetProfileSuccess: UserActions.GET_PROFILE_SUCCESS,
-      handleGetProfileError: UserActions.GET_PROFILE_ERROR
+      handleGetProfileError: UserActions.GET_PROFILE_ERROR,
+      handleProfileUpdate: UserActions.UPDATE_PROFILE,
+      handleProfileUpdateSuccess: UserActions.PROFILE_UPDATE_SUCCESS,
+      handleProfileUpdateError: UserActions.PROFILE_UPDATE_ERROR
     });
   }
 
@@ -118,6 +121,47 @@ class UserStore {
   }
 
   handleGetProfileError(errorMessage) {
+    this.emitChange(errorMessage);
+  }
+
+  handleProfileUpdate() {
+    this.emitChange();
+  }
+
+  handleProfileUpdateSuccess(data){
+    if (data.firstName == "") {
+        data.firstName = this.user.get('profile').get('firstName');
+    }
+    if (data.lastName == "") {
+        data.lastName = this.user.get('profile').get('lastName');
+    }
+      
+    if (data.website == "") {
+        data.section = this.user.get('profile').get('website');
+    }
+    if (data.gender == "") {
+        data.gender = this.user.get('profile').get('gender');
+    }
+    if (data.location == "") {
+        data.location = this.user.get('profile').get('location');
+    }
+
+
+    this.user = this.user.updateIn(['profile','firstName'], x => data.firstName);
+    this.user = this.user.updateIn(['profile','lastName'], x => data.lastName);
+    this.user = this.user.updateIn(['profile','website'], x => data.website);
+    this.user = this.user.updateIn(['profile','gender'], x => data.gender);
+    this.user = this.user.updateIn(['profile','location'], x => data.location);
+
+    this.user = this.user.updateIn(['data','firstName'], x => data.firstName);
+    this.user = this.user.updateIn(['data','lastName'], x => data.lastName);
+    this.user = this.user.updateIn(['data','website'], x => data.website);
+    this.user = this.user.updateIn(['data','gender'], x => data.gender);
+    this.user = this.user.updateIn(['data','location'], x => data.location);
+    this.emitChange();
+  }
+
+  handleProfileUpdateError(errorMessage) {
     this.emitChange(errorMessage);
   }
 
