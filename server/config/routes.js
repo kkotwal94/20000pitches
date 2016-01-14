@@ -6,10 +6,12 @@ var express = require('express');
 var users = require('../controllers/users');
 var mongoose = require('mongoose');
 var _ = require('lodash');
+var fs = require("fs");
 var Topic = mongoose.model('Topic');
 var Header = require('../../public/assets/header.server');
 var App = require('../../public/assets/app.server');
 var useragent = require('express-useragent');
+
 
 module.exports = function(app, io, passport) {
   // user routes
@@ -22,6 +24,7 @@ module.exports = function(app, io, passport) {
   app.get('/logout', users.getLogout);
   app.get('/getProfile', users.getProfile);
   app.post('/updateProfile', users.updateProfile);
+
   // google auth
   // Redirect the user to Google for authentication. When complete, Google
   // will redirect the user back to the application at
@@ -57,6 +60,30 @@ module.exports = function(app, io, passport) {
     topics.remove(req, res);
   });
 
+  app.post('/file/video', function(req, res) {
+    var filename = req.body.filename;
+    var path = "/home/karan/Downloads/1_Login.png";
+    var type = req.body.filetype;
+    var dirname = require("path").dirname(__dirname);
+    //var conn = req.conn;
+    var Grid = require('gridfs-stream');
+    Grid.mongo = mongoose.mongo;
+    var gfs = Grid(mongoose.connection.db);
+    var read_stream = fs.createReadStream(path);
+
+    var writestream = gfs.createWriteStream({
+      filename: filename
+    });
+
+    read_stream.pipe(writestream);
+    res.json(req.body);
+  });
+
+  app.get('/file/video/:id', function(req, res) {
+    var video_id = req.param.id;
+    var gfs = req.gfs;
+
+  });
   // Retrieves all topics on any endpoint for demonstration purposes
   // If you were indeed doing this in production, you should instead only
   // query the Topics on a page that has topics
