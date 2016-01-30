@@ -15,6 +15,7 @@ import applecon from 'file!images/apple-ninja152-precomposed.png';
 import mscon from 'file!images/ms-ninja144-precomposed.png';
 import favicon from 'file!images/favicon.png';
 import tv from 'file!images/tv.png';
+import img from 'file!images/pic.png';
 
 
 const config = {

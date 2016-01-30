@@ -6,13 +6,16 @@ var express = require('express');
 var users = require('../controllers/users');
 var mongoose = require('mongoose');
 var _ = require('lodash');
+//var mongo = require('mongodb');
 var fs = require("fs");
 var Topic = mongoose.model('Topic');
 var Header = require('../../public/assets/header.server');
 var App = require('../../public/assets/app.server');
 var useragent = require('express-useragent');
-
-
+var Busboy = require('busboy');
+var Grid = require('gridfs-stream');
+  Grid.mongo = mongoose.mongo;
+  var gfs = Grid(mongoose.connection.db);
 module.exports = function(app, io, passport) {
   // user routes
   var usernames = {};
@@ -60,9 +63,11 @@ module.exports = function(app, io, passport) {
     topics.remove(req, res);
   });
 
-  app.post('/file/video', function(req, res) {
+  /*app.post('/file/video', function(req, res) {
     var filename = req.body.filename;
-    var path = "/home/karan/Downloads/1_Login.png";
+    //console.log(req.body);
+    var path = "/Users/Karan/Documents/PersonalProjects/20000Pitches/movie.mp4";
+
     var type = req.body.filetype;
     var dirname = require("path").dirname(__dirname);
     //var conn = req.conn;
@@ -78,12 +83,56 @@ module.exports = function(app, io, passport) {
     read_stream.pipe(writestream);
     res.json(req.body);
   });
+*/
+
+  app.post('/file/video', function(req, res) {
+  var busboy = new Busboy({ headers : req.headers });
+  var fileId = new mongoose.mongo.ObjectId();
+  
+  busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
+    console.log('got file', filename, mimetype, encoding);
+    var writeStream = gfs.createWriteStream({
+      _id: fileId,
+      filename: filename,
+      mode: 'w',
+      content_type: mimetype,
+    });
+    file.pipe(writeStream);
+  }).on('finish', function() {
+    // show a link to the uploaded file
+    res.writeHead(200, {'content-type': 'text/html'});
+    res.end('<a href="/file/' + fileId.toString() + '">download file</a>');
+  });
+
+  req.pipe(busboy);
+});
 
   app.get('/file/video/:id', function(req, res) {
     var video_id = req.param.id;
     var gfs = req.gfs;
 
   });
+
+app.get('/file/:id', function(req, res) {
+  gfs.findOne({ _id: req.params.id }, function (err, file) {
+    if (err) return res.status(400).send(err);
+    if (!file) return res.status(404).send('');
+
+    res.set('Content-Type', file.contentType);
+    res.set('Content-Disposition', 'attachment; filename="' + file.filename + '"');
+    
+    var readstream = gfs.createReadStream({
+      _id: file._id
+    });
+
+    readstream.on("error", function(err) {
+      console.log("Got error while processing stream " + err.message);
+      res.end();
+    });
+
+    readstream.pipe(res);
+  });
+});
   // Retrieves all topics on any endpoint for demonstration purposes
   // If you were indeed doing this in production, you should instead only
   // query the Topics on a page that has topics

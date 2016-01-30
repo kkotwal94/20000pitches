@@ -130,20 +130,20 @@ class UserStore {
 
   handleProfileUpdateSuccess(data){
     if (data.firstName == "") {
-        data.firstName = this.user.get('profile').get('firstName');
+        data.firstName = this.user.get('data').get('firstName');
     }
     if (data.lastName == "") {
-        data.lastName = this.user.get('profile').get('lastName');
+        data.lastName = this.user.get('data').get('lastName');
     }
       
     if (data.website == "") {
-        data.section = this.user.get('profile').get('website');
+        data.section = this.user.get('data').get('website');
     }
     if (data.gender == "") {
-        data.gender = this.user.get('profile').get('gender');
+        data.gender = this.user.get('data').get('gender');
     }
     if (data.location == "") {
-        data.location = this.user.get('profile').get('location');
+        data.location = this.user.get('data').get('location');
     }
 
 
