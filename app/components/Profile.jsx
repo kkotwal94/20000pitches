@@ -137,6 +137,7 @@ _handleRequestClose = () => {
   		gender = this.state.user.get('profile').get('gender');
   		location = this.state.user.get('profile').get('location');
   		website = this.state.user.get('profile').get('website');
+
   	}
 
   	else {
@@ -146,6 +147,7 @@ _handleRequestClose = () => {
   	gender = this.state.user.get('data').get('gender');
   	location = this.state.user.get('data').get('location');
   	website = this.state.user.get('data').get('website');
+
   }
 
 

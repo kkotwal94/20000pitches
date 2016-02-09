@@ -1,14 +1,15 @@
 /**
  * Routes for express app
  */
-var topics = require('../controllers/topics');
 var express = require('express');
 var users = require('../controllers/users');
+var posts = require('../controllers/posts');
+var comments = require('../controllers/comments');
 var mongoose = require('mongoose');
 var _ = require('lodash');
 //var mongo = require('mongodb');
 var fs = require("fs");
-var Topic = mongoose.model('Topic');
+
 var Header = require('../../public/assets/header.server');
 var App = require('../../public/assets/app.server');
 var useragent = require('express-useragent');
@@ -22,11 +23,34 @@ module.exports = function(app, io, passport) {
   var numUsers = 0;
   var rooms = ['Lobby','Dota 2 Chat','Joke Chat'];
   
+  //users
   app.post('/login', users.postLogin);
   app.post('/signup', users.postSignUp);
   app.get('/logout', users.getLogout);
   app.get('/getProfile', users.getProfile);
   app.post('/updateProfile', users.updateProfile);
+
+
+  //posts
+  app.post('/posts', posts.createPost);
+  app.get('/allPosts', posts.allPosts);
+  app.put('/posts/:upvote/upvote', posts.upvotePost);
+  app.put('/posts/:downvote/downvote', posts.downvotePost);
+  app.get('/posts/:posts/getPost', posts.getPost);
+  app.get('/posts/:posts/getPost/comments', posts.getNestedComments);
+  app.post('/edit/:user/:id', posts.updatePost);
+  app.post('/posts/:id', posts.addNestedComment);
+  app.put('/posts/delete/:user/:id', posts.removePost);
+
+
+  //comments
+  app.get('/comment/:comment/getComment', comments.getComment);
+  app.post('/submit/:postid/comments', comments.createComment);
+  app.post('/editC/:user/:id', comments.editComment);
+  app.put('/comments/:upvote/upvote', comments.upvoteComment);
+  app.put('/comments/:downvote/downvote', comments.downvoteComment);
+  app.put('/post/:postid/comment/delete/:user/:id', comments.deleteComment);
+
 
   // google auth
   // Redirect the user to Google for authentication. When complete, Google
@@ -49,19 +73,7 @@ module.exports = function(app, io, passport) {
     }));
 
   // topic routes
-  app.get('/topic', topics.all);
-
-  app.post('/topic', function(req, res) {
-    topics.add(req, res);
-  });
-
-  app.put('/topic', function(req, res) {
-    topics.update(req, res);
-  });
-
-  app.delete('/topic', function(req, res) {
-    topics.remove(req, res);
-  });
+  
 
   /*app.post('/file/video', function(req, res) {
     var filename = req.body.filename;

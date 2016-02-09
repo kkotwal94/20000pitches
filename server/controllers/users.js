@@ -1,5 +1,7 @@
 var _ = require('lodash');
 var User = require('../models/user');
+var Post = require('../models/posts');
+var Comment = require('../models/comments');
 var passport = require('passport');
 
 /**
@@ -26,7 +28,7 @@ exports.getProfile = function(req, res, next) {
 
   var user = req.user.profile;
   res.json(user);
-}
+};
 
 
 exports.updateProfile = function(req, res, next) {
@@ -35,7 +37,7 @@ exports.updateProfile = function(req, res, next) {
 
   if (req.body.firstName == "") {
         req.body.firstName = req.user.profile.firstName;
-      }
+      } 
       if (req.body.lastName == "") {
         req.body.lastName = req.user.profile.lastName;
       }
@@ -59,7 +61,7 @@ exports.updateProfile = function(req, res, next) {
     userprofile.save();
     res.end();
   });
-}
+};
 /**
  * GET /logout
  */

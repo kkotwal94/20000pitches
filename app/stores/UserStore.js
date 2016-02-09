@@ -137,7 +137,7 @@ class UserStore {
     }
       
     if (data.website == "") {
-        data.section = this.user.get('data').get('website');
+        data.website = this.user.get('data').get('website');
     }
     if (data.gender == "") {
         data.gender = this.user.get('data').get('gender');
