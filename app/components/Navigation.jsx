@@ -128,7 +128,7 @@ _getTabs() {
 
   let styles = {
       root: {
-        backgroundColor: '#4527A0',
+        backgroundColor: '#333',
         position: 'fixed',
         height: 64,
         top: 0,
@@ -157,7 +157,7 @@ _getTabs() {
       svgLogo: {
         width: 65,
         height: 65,
-        backgroundColor: '#4527A0',
+        backgroundColor: '#333',
         position: 'absolute',
         top: 0,
       },
@@ -167,7 +167,7 @@ _getTabs() {
       },
       tab: {
         height: 64,
-        backgroundColor: '#4527A0'
+        backgroundColor: '#333'
       },
 
     };
@@ -343,7 +343,7 @@ _getAppBar() {
           title={title}
           zDepth={0}
           iconElementRight={githubButton}
-          style={{position: 'fixed', top: 0, backgroundColor: '#4527A0'}}/>
+          style={{position: 'fixed', top: 0, backgroundColor: '#333'}}/>
       </div>);
   }
 
@@ -373,7 +373,7 @@ let header = {
       color: Typography.textFullWhite,
       lineHeight: Spacing.desktopKeylineIncrement + 'px',
       fontWeight: Typography.fontWeightLight,
-      backgroundColor: "#4527A0",
+      backgroundColor: "#333",
       paddingLeft: Spacing.desktopGutter,
       marginBottom: 8 }
     };

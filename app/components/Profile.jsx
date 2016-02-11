@@ -90,7 +90,7 @@ _handleRequestClose = () => {
 
   	let styles = {
       root: {
-        backgroundColor: "#4527A0",
+        backgroundColor: "#01579b",
       },
       content: {
         maxWidth: 700,
@@ -172,7 +172,7 @@ _handleRequestClose = () => {
   }
 
   	return (
-  		<div>
+  		<div style={{marginTop: '-8px'}}>
   		<h1 className={styles.about__description} style={{color:"white"}}> {firstName + " " + lastName + "'s Profile Page"}</h1>
   		<FullWidthSection
         style={styles.root}

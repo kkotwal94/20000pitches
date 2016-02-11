@@ -3,6 +3,27 @@ import {bindAll} from 'lodash';
 import $ from 'jquery';
 import image from 'images/pic.png';
 
+const { AppBar,
+      AppCanvas,
+      FontIcon,
+      FlatButton,
+      ClearFix,
+      IconButton,
+      EnhancedButton,
+      Menu,
+      Mixins,
+      RaisedButton,
+      RefreshIndicator,
+      TextField,
+      Styles,
+      Tab,
+      Tabs,
+      Paper} = require('material-ui');
+
+const { StylePropable } = Mixins;
+const { Colors, Spacing, Typography } = Styles;
+
+
 
 export default class Pitch extends React.Component {
 
@@ -66,6 +87,14 @@ export default class Pitch extends React.Component {
     let processing;
     let uploaded;
 
+    const style = {
+    height: '300px',
+    width: '300px',
+    margin: '0 auto',
+    textAlign: 'center',
+    display: 'inline-block',
+  };
+
     if (this.state.uploaded_uri) {
       uploaded = (
         <div>
@@ -81,12 +110,22 @@ export default class Pitch extends React.Component {
     }
 
     return (
-      <div className='row' style={{marginTop : "30px"}}>
+
+      
+      <div style={{marginTop: '40px'}}>
+      <Paper style={style} zDepth={2}>
+        <div className='container'>
+          <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Title"  hintText="Enter Title of Pitch" ref = "title"/>
+          <br/>
+          <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Description"  hintText="Enter description of pitch" ref = "description"/>          
+          <br/>
+        </div>
         <div className='col-sm-12'>
-          <label>Upload an image</label>
+          <label>Upload an Video Pitch</label>
           <form id = "formData" onSubmit={this.handleSubmit} encType="multipart/form-data">
             <input type="file" name="file" onChange={this.handleFile} />
-            <input disabled={this.state.processing} className='btn btn-primary' type="submit" value="Upload" />
+            <br/>
+            <input disabled={this.state.processing} className='btn btn-primary' type="submit" value="Submit" />
             {processing}
           </form>
           {uploaded}
@@ -100,6 +139,7 @@ export default class Pitch extends React.Component {
       <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
     </p>
   </video>
+  </Paper>
   </div>
       
     );

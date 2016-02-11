@@ -275,7 +275,7 @@ handleDialogOpen = () => {
     console.log(this.state.user);
     let style = {
       root: {
-        backgroundColor: '#2F2F2F',
+        backgroundColor: '#01579b',
         height: '580px',
         zIndex: 0,
         width: '100%',
@@ -298,7 +298,7 @@ let dialogStyle = {
   },
 
   mainDialog: {
-    backgroundColor: "#2F2F2F"
+    backgroundColor: "#01579b"
   }
 
 };
@@ -309,7 +309,7 @@ let dialogStyle = {
 
     if(this.state.user.get('authenticated')) {
       renderedResult = (
-        <div style={{backgroundColor: "#2F2F2F"}}>
+        <div style={{backgroundColor: "#01579b"}}>
         <Paper zDepth={1}
              rounded={false}
              style={style.root}
@@ -345,7 +345,7 @@ let dialogStyle = {
 
     else {
       renderedResult = (
-        <div style={{backgroundColor: "#2F2F2F"}}>
+        <div style={{backgroundColor: "#01579b"}}>
         <Paper zDepth={1}
              rounded={false}
              style={style.root}
@@ -382,7 +382,7 @@ let dialogStyle = {
     }
 
     return (
-        <div style={{backgroundColor: "#2F2F2F"}}>
+        <div>
         {renderedResult}
         <Dialog
           
