@@ -81,7 +81,7 @@ export default class Pitch extends React.Component {
     }
 
     return (
-      <div className='row'>
+      <div className='row' style={{marginTop: '40px'}}>
         <div className='col-sm-12'>
           <label>Upload an image</label>
           <form id = "formData" onSubmit={this.handleSubmit} encType="multipart/form-data">

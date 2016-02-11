@@ -90,7 +90,7 @@ _handleRequestClose = () => {
 
   	let styles = {
       root: {
-        backgroundColor: "#4527A0",
+        backgroundColor: "#01579b",
       },
       content: {
         maxWidth: 700,
