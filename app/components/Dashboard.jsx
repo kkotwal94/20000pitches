@@ -298,7 +298,7 @@ let dialogStyle = {
   },
 
   mainDialog: {
-    backgroundColor: "#01579b"
+    backgroundColor: "#2f2f2f"
   }
 
 };
