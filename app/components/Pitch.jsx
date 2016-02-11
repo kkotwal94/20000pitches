@@ -81,7 +81,7 @@ export default class Pitch extends React.Component {
     }
 
     return (
-      <div className='row'>
+      <div className='row' style={{marginTop : "30px"}}>
         <div className='col-sm-12'>
           <label>Upload an image</label>
           <form id = "formData" onSubmit={this.handleSubmit} encType="multipart/form-data">
@@ -93,7 +93,7 @@ export default class Pitch extends React.Component {
         </div>
   <video id="my-video" className="video-js" controls preload="auto" width="800" height="600"
   poster={image} data-setup="{}">
-    <source src="/file/56ad48f8d3c44588179ca1ed" type='video/mp4'/>
+    <source src="/file/56bc39579607d3337b974d83" type='video/mp4'/>
     
     <p className="vjs-no-js">
       To view this video please enable JavaScript, and consider upgrading to a web browser that
