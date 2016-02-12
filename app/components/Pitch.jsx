@@ -2,23 +2,19 @@ import React, {Component} from 'react';
 import {bindAll} from 'lodash';
 import $ from 'jquery';
 import image from 'images/pic.png';
+import styles from 'scss/components/_layout';
 
-const { AppBar,
-      AppCanvas,
-      FontIcon,
-      FlatButton,
-      ClearFix,
-      IconButton,
-      EnhancedButton,
+const { 
       Menu,
       Mixins,
+      Divider,
+      ListItem,
+      List,
       RaisedButton,
-      RefreshIndicator,
+      Styles,  
       TextField,
-      Styles,
-      Tab,
-      Tabs,
-      Paper} = require('material-ui');
+      Paper,
+      Snackbar } = require('material-ui');  
 
 const { StylePropable } = Mixins;
 const { Colors, Spacing, Typography } = Styles;
@@ -89,8 +85,7 @@ export default class Pitch extends React.Component {
 
     const style = {
     height: '300px',
-    width: '300px',
-    margin: '0 auto',
+    width: '100%',
     textAlign: 'center',
     display: 'inline-block',
   };
@@ -113,14 +108,19 @@ export default class Pitch extends React.Component {
 
       
       <div style={{marginTop: '40px'}}>
+      <div className={styles.row + ' ' + styles.row__group}>
+      <div className = {styles.col + ' ' + styles.col__col312}>
+      </div>
+      <div className = {styles.col + ' ' + styles.col__col512}>
       <Paper style={style} zDepth={2}>
-        <div className='container'>
+        
+          
+          
           <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Title"  hintText="Enter Title of Pitch" ref = "title"/>
           <br/>
           <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Description"  hintText="Enter description of pitch" ref = "description"/>          
           <br/>
-        </div>
-        <div className='col-sm-12'>
+          <div className='col-sm-12'>
           <label>Upload an Video Pitch</label>
           <form id = "formData" onSubmit={this.handleSubmit} encType="multipart/form-data">
             <input type="file" name="file" onChange={this.handleFile} />
@@ -130,16 +130,11 @@ export default class Pitch extends React.Component {
           </form>
           {uploaded}
         </div>
-  <video id="my-video" className="video-js" controls preload="auto" width="800" height="600"
-  poster={image} data-setup="{}">
-    <source src="/file/56bc39579607d3337b974d83" type='video/mp4'/>
     
-    <p className="vjs-no-js">
-      To view this video please enable JavaScript, and consider upgrading to a web browser that
-      <a href="http://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
-    </p>
-  </video>
   </Paper>
+  </div>
+
+  </div>
   </div>
       
     );

@@ -6,21 +6,14 @@ import styles from 'scss/components/_about';
 import FullWidthSection from 'components/FullWidthSection';
 
 const { 
-       Avatar,
-      FontIcon,
-      Dialog,
-      IconButton,
-      EnhancedButton,
       Menu,
       Mixins,
       Divider,
       ListItem,
       List,
       RaisedButton,
-      Styles,
-      Tab,
+      Styles,  
       TextField,
-      Tabs,
       Paper,
   	  Snackbar } = require('material-ui');
 const { Colors, Spacing, Typography } = Styles;
