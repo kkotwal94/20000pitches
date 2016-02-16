@@ -3,7 +3,7 @@ import {bindAll} from 'lodash';
 import $ from 'jquery';
 import image from 'images/pic.png';
 import styles from 'scss/components/_layout';
-
+import LinearProgress from 'material-ui/lib/linear-progress';
 const { 
       Menu,
       Mixins,
@@ -27,7 +27,11 @@ export default class Pitch extends React.Component {
   	super(props);
     this.state = {
       data_uri: null,
-      processing: false
+      processing: false,
+      completed: 0,
+      creating: false,
+      title: null,
+      description: null
     }
 
     bindAll(this, 'handleFile', 'handleSubmit');
@@ -50,20 +54,50 @@ export default class Pitch extends React.Component {
         filetype: this.state.filetype
       }*/,
       processData: false,
+      xhr: function()
+      {
+      var xhr = new window.XMLHttpRequest();
+      //Upload progress
+      xhr.upload.addEventListener("progress", function(evt){
+        if (evt.lengthComputable) {
+          var percentComplete = evt.loaded / evt.total;
+          //Do something with upload progress
+          //console.log(percentComplete);
+          _this.setState({completed: percentComplete*100});
+          //console.log(_this.state.completed);
+        }
+      }, false);
+      //Download progress
+      xhr.addEventListener("progress", function(evt){
+        if (evt.lengthComputable) {
+          var percentComplete = evt.loaded / evt.total;
+          //Do something with download progress
+          console.log(percentComplete);
+           _this.setState({completed: percentComplete*100});
+        }
+      }, false);
+      return xhr;
+      },
       contentType: false
       //dataType: 'json'
     });
 
     promise.done(function(data){
-      _this.setState({
+      console.log(_this.state.data_uri);
+      let title = _this.refs.title.getValue();
+      let description = _this.refs.description.getValue();
+        _this.setState({
         processing: false,
-        uploaded_uri: data.uri
+        uploaded_uri: _this.state.data_uri,
+        creating: true,
+        title: title,
+        description: description
       });
     });
   }
 
   
-  handleFile(e) {
+  handleFile = (e) => {
     const reader = new FileReader();
     const file = e.target.files[0];
 
@@ -79,10 +113,18 @@ export default class Pitch extends React.Component {
     reader.readAsDataURL(file);
   }
 
+  _handleTouchTap = () => {
+    this.setState({
+      creating: false,
+      uploaded_uri: null
+    });
+  }
+
   render() {
     let processing;
     let uploaded;
 
+    let renderedResult;
     const style = {
     height: '300px',
     width: '100%',
@@ -91,28 +133,24 @@ export default class Pitch extends React.Component {
   };
 
     if (this.state.uploaded_uri) {
+      console.log("True");
       uploaded = (
         <div>
-          <h4>Image uploaded!</h4>
-          <img className='image-preview' src={this.state.uploaded_uri} />
-          <pre className='image-link-box'>{this.state.uploaded_uri}</pre>
+          <h4>Video uploaded!</h4>
+          
+          
         </div>
       );
     }
 
     if (this.state.processing) {
-      processing = "Processing image, hang tight";
+      processing = "Processing video, hang tight";
     }
 
-    return (
-
-      
-      <div style={{marginTop: '40px'}}>
-      <div className={styles.row + ' ' + styles.row__group}>
-      <div className = {styles.col + ' ' + styles.col__col312}>
-      </div>
-      <div className = {styles.col + ' ' + styles.col__col512}>
-      <Paper style={style} zDepth={2}>
+    if(this.state.creating == false) {
+      renderedResult = (
+        <div>
+          <Paper style={style} zDepth={2}>
         
           
           
@@ -128,10 +166,44 @@ export default class Pitch extends React.Component {
             <input disabled={this.state.processing} className='btn btn-primary' type="submit" value="Submit" />
             {processing}
           </form>
-          {uploaded}
+          <br/>
+          <LinearProgress mode="determinate" value={this.state.completed} style={{margin: '0 auto', textAlign: 'center' , width: "90%"}} />
         </div>
-    
+        {uploaded}
   </Paper>
+  </div>
+        );
+    } else {
+
+      renderedResult = (
+        <div>
+        <Paper style={style} zDepth={2}>
+        
+          
+          
+          <h1>Post is complete!</h1>
+          <h1>View Post here!</h1>
+          <h4>{this.state.title}</h4>
+          <h4>{this.state.description}</h4>
+          <RaisedButton label="Create another pitch!" primary={true} onTouchTap={this._handleTouchTap}/>
+          <br/>
+          
+
+        
+  </Paper>
+  </div>
+        );
+    }
+
+    return (
+
+      
+      <div style={{marginTop: '40px'}}>
+      <div className={styles.row + ' ' + styles.row__group}>
+      <div className = {styles.col + ' ' + styles.col__col312}>
+      </div>
+      <div className = {styles.col + ' ' + styles.col__col512}>
+      {renderedResult}
   </div>
 
   </div>

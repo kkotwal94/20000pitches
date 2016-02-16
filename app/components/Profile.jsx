@@ -62,7 +62,10 @@ export default class Profile extends React.Component {
   }
 
 _handleActionTouchTap = () => {
-    alert('Some action here....');
+    //alert('Some action here....');
+    this.setState({
+      openSnack: false
+    });
   };
 
 
