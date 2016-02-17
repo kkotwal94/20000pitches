@@ -25,11 +25,13 @@ exports.createPost = function(req, res) {
        
         User.findById(req.user.id, function (err, user) {
             
-            user.local.posts.push(posts);
-            user.local.postsCount = user.local.postsCount + 1;
-            posts.author = user.local.email;
+            user.posts.push(posts);
+            user.postsCount = user.postsCount + 1;
+            posts.author = user.email;
             posts.owner = user;
+            posts.videoURL = user.videos[user.videos.length - 1];
             posts.save();
+            console.log(posts);
             user.save();
             res.json(req.body);
         });

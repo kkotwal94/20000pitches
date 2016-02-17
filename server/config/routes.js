@@ -5,6 +5,9 @@ var express = require('express');
 var users = require('../controllers/users');
 var posts = require('../controllers/posts');
 var comments = require('../controllers/comments');
+var User = require('../models/user');
+var Post = require('../models/posts');
+var Comment = require('../models/comments');
 var mongoose = require('mongoose');
 var _ = require('lodash');
 //var mongo = require('mongodb');
@@ -98,8 +101,10 @@ module.exports = function(app, io, passport) {
 */
 
   app.post('/file/video', function(req, res) {
+  //console.log(req.body);
   var busboy = new Busboy({ headers : req.headers });
   var fileId = new mongoose.mongo.ObjectId();
+  //console.log(req.body);
   
   busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
     console.log('got file', filename, mimetype, encoding);
@@ -112,6 +117,9 @@ module.exports = function(app, io, passport) {
     file.pipe(writeStream);
   }).on('finish', function() {
     // show a link to the uploaded file
+    req.user.videos.push(fileId);
+    req.user.save();
+    console.log(req.user);
     res.writeHead(200, {'content-type': 'text/html'});
     res.end('<a href="/file/' + fileId.toString() + '">download file</a>');
   });

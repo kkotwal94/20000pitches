@@ -25,6 +25,7 @@ var UserSchema = new mongoose.Schema({
     website: { type: String, default: ''},
     picture: { type: String, default: ''}
   },
+  videos       : [{ type: mongoose.Schema.Types.ObjectId}],
   posts        : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Post' }],
   comments     : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
   postsCount   : { type: Number, default: 0 },

@@ -5,7 +5,7 @@ var PostSchema = new mongoose.Schema({
     title     : String,
     body      : String,
     author    : String,
-    videoURL  : String,
+    videoURL  : {type: mongoose.Schema.Types.ObjectId},
     date      : { type: Date }, 
     upvotes   : { type: Number, default: 0 },
     comments  : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],

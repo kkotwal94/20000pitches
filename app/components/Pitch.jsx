@@ -45,6 +45,12 @@ export default class Pitch extends React.Component {
       processing: true
     });
     let data = new FormData(document.getElementById('formData'));
+    let title = _this.refs.title.getValue();
+    let description = _this.refs.description.getValue();
+    let data2 = {description: description, title: title};
+    data.append("title", title);
+    data.append("description", description);
+      console.log(data2);
     const promise = $.ajax({
       url: '/file/video',
       type: "POST",
@@ -83,9 +89,10 @@ export default class Pitch extends React.Component {
     });
 
     promise.done(function(data){
-      console.log(_this.state.data_uri);
+      //console.log(_this.state.data_uri);
       let title = _this.refs.title.getValue();
-      let description = _this.refs.description.getValue();
+      let body = _this.refs.description.getValue();
+      let data2 = {body: body, title: title};
         _this.setState({
         processing: false,
         uploaded_uri: _this.state.data_uri,
@@ -93,6 +100,13 @@ export default class Pitch extends React.Component {
         title: title,
         description: description
       });
+        const promise2 = $.ajax({
+          url: '/posts',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(data2)          
+        });
+
     });
   }
 
@@ -154,13 +168,14 @@ export default class Pitch extends React.Component {
         
           
           
-          <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Title"  hintText="Enter Title of Pitch" ref = "title"/>
-          <br/>
-          <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Description"  hintText="Enter description of pitch" ref = "description"/>          
-          <br/>
+          
           <div className='col-sm-12'>
           <label>Upload an Video Pitch</label>
           <form id = "formData" onSubmit={this.handleSubmit} encType="multipart/form-data">
+          <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Title"  hintText="Enter Title of Pitch" ref = "title" name="title"/>
+          <br/>
+          <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Description"  hintText="Enter description of pitch" ref = "description" name="description"/>          
+          <br/>
             <input type="file" name="file" onChange={this.handleFile} />
             <br/>
             <input disabled={this.state.processing} className='btn btn-primary' type="submit" value="Submit" />
