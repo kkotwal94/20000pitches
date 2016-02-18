@@ -34,7 +34,9 @@ export default class App extends React.Component {
   render() {
     return (
       <AltContainer stores={{
-        UserStore: UserStore
+        UserStore: UserStore,
+        CommentsStore: CommentsStore,
+        PostsStore: PostsStore
       }}>
         <Navigation ref ="nav"/>
         {this.props.children}
