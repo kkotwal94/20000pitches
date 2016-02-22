@@ -27,9 +27,9 @@ class PostsActions {
   	this.dispatch(error);
   }
 
-  getPosts() {
+  getPosts(id) {
   	this.dispatch();
-	PostsWebAPIUtils.getPosts().done((data) => {
+	PostsWebAPIUtils.getPosts(id).done((data) => {
       this.actions.getPostsSuccess(data);
     })
     .fail((errorMessage) => {
@@ -45,9 +45,9 @@ class PostsActions {
   	this.dispatch(error);
   }
 
-  getNestedComments() {
+  getNestedComments(id) {
   	this.dispatch();
-  	PostsWebAPIUtils.getNestedComments().done((data) => {
+  	PostsWebAPIUtils.getNestedComments(id).done((data) => {
       this.actions.getNestedCommentsSuccess(data);
     })
     .fail((errorMessage) => {
@@ -61,6 +61,30 @@ class PostsActions {
 
   getNestedCommentsError(error) {
   	this.dispatch(error);
+  }
+
+  upvotePost(id) {
+  	PostsWebAPIUtils.upvotePost()
+      .then((response, textStatus) => {
+        if(textStatus === 'success') {
+          this.actions.upvotePostSuccess();
+        }
+        if(textStatus === 'error') {
+          this.actions.upvotePostError();
+        }
+      });
+  }
+
+  upvotePostSuccess() {
+  	this.dispatch();
+  }
+
+  upvotePostError() { 
+  	this.dispatch();
+  }
+
+  downvotePost(id) {
+
   }
 }
 
