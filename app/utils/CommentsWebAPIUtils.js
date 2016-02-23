@@ -6,21 +6,52 @@ const utils = {
    * @return {Promise}
    */
 
-  getProfile: () => {
+  getComment: (id) => {
     return $.ajax({
-      url:'/getProfile',
+      url:'/comment/' + id + '/getComment',
       type: 'GET'
     });
   },
 
-  updateProfile: (data) => {
+  createComment: (postid, data) => {
     return $.ajax({
-      url: '/updateProfile',
+      url: '/submit/' + postid +'/comments',
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(data)
     });
+  },
+
+  editComment: (userid, commentid, data) => {
+    return $.ajax({
+      url: '/editC/' + userid + '/' +commentid,
+      type: 'POST',
+      contentType: 'application/json',
+      data: JSON.stringify(data)
+    });
+  },
+
+  upvoteComment: (commentid) => {
+    return $.ajax({
+      url:'/comments/' +commentid+ '/upvote',
+      type: 'PUT'
+    });
+  },
+
+  downvoteComment: (commentid) => {
+    return $.ajax({
+      url:'/comments/' +commentid+ '/downvote',
+      type: 'PUT'
+    });
+  },
+
+  deleteComment: (userid, postid, commentid) => {
+    return $.ajax({
+      url:'/post/' + postid + '/comment/delete/' + userid+ '/' + commentid,
+      type: 'PUT'
+    });
   }
+
 
 };
 

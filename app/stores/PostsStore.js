@@ -34,6 +34,9 @@ class PostsStore {
     // Instance variables defined anywhere in the store will become the state. You can initialize these in the constructor and
     // then update them directly in the prototype methods
     this.posts = [];
+    this.singlePost = [];
+    this.nestedComments = [];
+
 
     // (lifecycleMethod: string, handler: function): undefined
     // on: This method can be used to listen to Lifecycle events. Normally they would set up in the constructor
@@ -47,7 +50,28 @@ class PostsStore {
     this.bindListeners({
       handleAllPosts: PostsActions.ALL_POSTS,
       handleAllPostsSuccess: PostsActions.ALL_POSTS_SUCCESS,
-      handleAllPostsError: PostsActions.ALL_POSTS_ERROR 
+      handleAllPostsError: PostsActions.ALL_POSTS_ERROR,
+      handleGetPosts: PostsActions.GET_POSTS,
+      handleGetPostsSuccess: PostsActions.GET_POSTS_SUCCESS,
+      handleGetPostsError: PostsActions.GET_POST_ERROR,
+      handleGetNestedComments: PostsActions.GET_NESTED_COMMENTS,
+      handleGetNestedCommentsSuccess: PostsActions.GET_NESTED_COMMENTS_SUCCESS,
+      handleGetNestedCommentsError: PostsActions.GET_NESTED_COMMENTS_ERROR,
+      handleUpvote: PostsActions.UPVOTE_POST,
+      handleUpvoteSuccess: PostsActions.UPVOTE_POST_SUCCESS,
+      handleUpvoteError: PostsActions.UPVOTE_POST_ERROR,
+      handleDownvote: PostsActions.DOWNVOTE_POST,
+      handleDownvoteSuccess: PostsActions.DOWNVOTE_POST_SUCCESS,
+      handleDownvoteError: PostsActions.DOWNVOTE_POST_ERROR,
+      handleEditPost: PostsActions.EDIT_POST,
+      handleEditPostSuccess: PostsActions.EDIT_POST_SUCCESS,
+      handleEditPostError: PostsActions.EDIT_POST_ERROR,
+      handleAddNestedComment: PostsActions.ADD_NESTED_COMMENT,
+      handleAddNestedCommentSuccess: PostsActions.ADD_NESTED_COMMENT_SUCCESS,
+      handleAddNestedCommentError: PostsActions.ADD_NESTED_COMMENT_ERROR,
+      handleRemovePost: PostsActions.REMOVE_POST,
+      handleRemovePostSuccess: PostsActions.REMOVE_POST_SUCCESS,
+      handleRemovePostError: PostsActions.REMOVE_POST_ERROR
     
     });
   }
@@ -71,7 +95,90 @@ class PostsStore {
     this.emitChange(error);
   }
 
+  handleGetPosts() {
+    this.emitChange();
+  }
 
+  handleGetPostsSuccess(data) {
+    this.singlePost = data;
+  }
+
+  handleGetPostsError(error) { 
+    this.emitChange(error);
+  }
+
+  handleGetNestedComments() {
+    this.emitChange();
+  }
+
+  handleGetNestedCommentsSuccess(data) {
+    this.nestedComments = data;
+    this.emitChange();
+  }
+
+  handleGetNestedCommentsError(error) {
+    this.emitChange(error);
+  }
+
+  handleUpvote() {
+    this.emitChange();
+  }
+
+  handleUpvoteSuccess(id) {
+    this.emitChange();
+  }
+
+  handleUpvoteError(error) {
+    this.emitChange();
+  }
+
+  handleDownvote() {
+    this.emitChange();
+  }
+
+  handleDownvoteSuccess(id) {
+    this.emitChange();
+  }
+
+  handleDownvoteError() {
+    this.emitChange();
+  }
+
+  handleEditPost() {
+    this.emitChange();
+  }
+
+  handleEditPostSuccess(uid, pid, data) {
+    this.emitChange();
+  }
+
+  handleEditPostError() {
+    this.emitChange();
+  }
+
+  handleAddNestedComment() {
+    this.emitChange();
+  }
+
+  handleAddNestedCommentSuccess(id, data) {
+    this.emitChange();
+  }
+
+  handleNestedCommentError() {
+    this.emitChange();
+  }
+
+  handleRemovePost() {
+    this.emitChange();
+  }
+
+  handleRemovePostSuccess() {
+    this.emitChange();
+  }
+
+  handleRemovePostError() {
+    this.emitChange();
+  }
 
 }
 

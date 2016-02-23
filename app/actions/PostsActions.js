@@ -64,10 +64,11 @@ class PostsActions {
   }
 
   upvotePost(id) {
-  	PostsWebAPIUtils.upvotePost()
+  	this.dispatch();
+  	PostsWebAPIUtils.upvotePost(id)
       .then((response, textStatus) => {
         if(textStatus === 'success') {
-          this.actions.upvotePostSuccess();
+          this.actions.upvotePostSuccess(id);
         }
         if(textStatus === 'error') {
           this.actions.upvotePostError();
@@ -76,7 +77,7 @@ class PostsActions {
   }
 
   upvotePostSuccess() {
-  	this.dispatch();
+  	this.dispatch(id);
   }
 
   upvotePostError() { 
@@ -84,7 +85,87 @@ class PostsActions {
   }
 
   downvotePost(id) {
+  	this.dispatch();
+  	PostsWebAPIUtils.downvotePost(id)
+      .then((response, textStatus) => {
+        if(textStatus === 'success') {
+          this.actions.downvotePostSuccess(id);
+        }
+        if(textStatus === 'error') {
+          this.actions.downvotePostError();
+        }
+      });
+  }
 
+  downvotePostSuccess(id) {
+  	this.dispatch(id);
+  }
+
+  downvotePostError(){
+  	this.dispatch();
+  }
+
+  editPost(id, pid, data) {
+  	this.dispatch();
+  	PostsWebAPIUtils.editPost(id, pid, data)
+  		.then((response, textStatus) => {
+        if(textStatus === 'success') {
+          this.actions.editPostSuccess(id);
+        }
+        if(textStatus === 'error') {
+          this.actions.editPostError();
+        }
+      });
+  }
+
+  editPostSuccess(id, pid, data) {
+  	this.dispatch(id, pid, data);
+  }
+
+  editPostError() {
+  	this.dispatch();
+  }
+
+  addNestedComment(id, data) {
+  	this.dispatch();
+  	PostsWebAPIUtils.addNestedComment(id, data)
+  		.then((response, textStatus) => {
+        if(textStatus === 'success') {
+          this.actions.addNestedCommentSuccess(id);
+        }
+        if(textStatus === 'error') {
+          this.actions.addNestedCommentError();
+        }
+      });
+  }	
+
+  addNestedCommentSuccess(id, data) {
+  	this.dispatch(id, data);
+  }
+
+  addNestedCommentError(){
+  	this.dispatch();
+  }
+
+   removePost(uid, pid) {
+  	this.dispatch();
+  	PostsWebAPIUtils.removePost(uid, pid)
+  		.then((response, textStatus) => {
+        if(textStatus === 'success') {
+          this.actions.removePostSuccess(uid, pid);
+        }
+        if(textStatus === 'error') {
+          this.actions.removePostError();
+        }
+      });
+  }	
+
+  removePostSuccess(uid, pid) {
+  	this.dispatch(uid, pid);
+  }
+
+  removePostError() {
+  	this.dispatch();
   }
 }
 

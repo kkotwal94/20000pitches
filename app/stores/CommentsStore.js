@@ -45,8 +45,25 @@ class CommentsStore {
     // StoreModel and the values can either be an array of action symbols or a single action symbol.
     // Remember: alt generates uppercase constants for us to reference
     this.bindListeners({
-      handleLoginAttempt: UserActions.MANUALLOGIN,
-    
+      handleGetComment: CommentsActions.GET_COMMENT,
+      handleGetCommentSuccess: CommentsActions.GET_COMMENT_SUCCESS,
+      handleGetCommentError: CommentsActions.GET_COMMENT_ERROR,
+      handleCreateComment: CommentsActions.CREATE_COMMENT,
+      handleCreateCommentSuccess: CommentsActions.CREATE_COMMENT_SUCCESS,
+      handleCreateCommentError: CommentsActions.CREATE_COMMENT_ERROR,
+      handleEditComment: CommentsActions.EDIT_COMMENT,
+      handleEditCommentSuccess: CommentsActions.EDIT_COMMENT_SUCCESS,
+      handleEditCommentError: CommentsActions.EDIT_COMMENT_ERROR,
+      handleUpvoteComment: CommentsActions.UPVOTE_COMMENT,
+      handleUpvoteCommentSuccess: CommentsActions.UPVOTE_COMMENT_SUCCESS,
+      handleUpvoteCommentError: CommentsActions.UPVOTE_COMMENT_ERROR,
+      handleDownvoteComment: CommentsActions.DOWNVOTE_COMMENT,
+      handleDownvoteCommentSuccess: CommentsActions.DOWNVOTE_COMMENT_SUCCESS,
+      handleDownvoteCommentError: CommentsActions.DOWNVOTE_COMMENT_ERROR,
+      handleDeleteComment: CommentsActions.DELETE_COMMENT,
+      handleDeleteCommentSuccess: CommentsActions.DELETE_COMMENT_SUCCESS,
+      handleDeleteCommentError: CommentsActions.DELETE_COMMENT_ERROR
+
     });
   }
 
@@ -56,7 +73,77 @@ class CommentsStore {
     }
   }
 
-  
+  handleGetComment() {
+    this.emitChange();
+  }
+
+  handleGetCommentSuccess() {
+    this.emitChange();
+  }
+
+  handleGetCommentError() {
+    this.emitChange();
+  }
+
+  handleCreateComment() {
+    this.emitChange();
+  }
+
+  handleCreateCommentSuccess() {
+    this.emitChange();
+  }
+
+  handleCreateCommentError() {
+    this.emitChange();
+  }
+
+  handleEditComment() {
+    this.emitChange();
+  }
+
+  handleEditCommentSuccess() {
+    this.emitChange();
+  }
+
+  handleEditCommentError() {
+    this.emitChange();
+  }
+
+  handleUpvoteComment() {
+    this.emitChange();
+  }
+
+  handleUpvoteCommentSuccess() {
+    this.emitChange();
+  }
+
+  handleUpvoteCommentError() {
+    this.emitChange();
+  }
+
+  handleDownvoteComment() {
+    this.emitChange();
+  }
+
+  handleDownvoteCommentSuccess() {
+    this.emitChange();
+  }
+
+  handleDownvoteCommentError() {
+    this.emitChange();
+  }
+
+  handleDeleteComment() {
+    this.emitChange();
+  }
+
+  handleDeleteCommentSuccess() {
+    this.emitChange();
+  }
+
+  handleDeleteCommentError() {
+    this.emitChange();
+  }
 
 }
 

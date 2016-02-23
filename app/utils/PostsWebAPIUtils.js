@@ -30,22 +30,22 @@ const utils = {
   upvotePost: (id) => {
     return $.ajax({
       url: '/posts/'+ id + '/upvote',
-      type: 'PUT',
-      contentType: 'application/json',
-      data: JSON.stringify(data)
+      type: 'PUT'
+      //contentType: 'application/json',
+      //data: JSON.stringify(data)
     });
   },
 
-  downvotePost: (id) => {
+  downvotePost: (id, data) => {
     return $.ajax({
       url: '/posts/'+ id + '/downvote',
-      type: 'PUT',
-      contentType: 'application/json',
-      data: JSON.stringify(data)
+      type: 'PUT'
+      //contentType: 'application/json',
+      //data: JSON.stringify(data)
     });
   },
 
-  upvotePost: (uid, pid) => {
+  editPost: (uid, pid, data) => {
     return $.ajax({
       url: '/edit/'+ uid+ '/' + pid,
       type: 'POST',
@@ -55,7 +55,7 @@ const utils = {
   
   },
 
-  addNestedComment: (id) => {
+  addNestedComment: (id, data) => {
     return $.ajax({
       url: '/posts/' + id,
       type: 'POST',
@@ -64,12 +64,12 @@ const utils = {
     });
   },
 
-  removePost: (uid, pid) => {
+  removePost: (uid, pid, data) => {
     return $.ajax({
       url: '/posts/delete/' + uid+ '/' + pid,
-      type: 'PUT',
-      contentType: 'application/json',
-      data: JSON.stringify(data)
+      type: 'PUT'
+      //contentType: 'application/json',
+      //data: JSON.stringify(data)
     });
   }
 
