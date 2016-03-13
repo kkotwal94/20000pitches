@@ -46,10 +46,12 @@ export default class Pitch extends React.Component {
     });
     let data = new FormData(document.getElementById('formData'));
     let title = _this.refs.title.getValue();
-    let description = _this.refs.description.getValue();
-    let data2 = {description: description, title: title};
+    let body = _this.refs.description.getValue();
+    let thumbnail = _this.refs.thumbnail.getValue();
+    let data2 = {body: body, title: title, thumbnail: thumbnail};
     data.append("title", title);
-    data.append("description", description);
+    data.append("body", body);
+    data.append("thumbnail", thumbnail);
       console.log(data2);
     const promise = $.ajax({
       url: '/file/video',
@@ -92,7 +94,9 @@ export default class Pitch extends React.Component {
       //console.log(_this.state.data_uri);
       let title = _this.refs.title.getValue();
       let body = _this.refs.description.getValue();
-      let data2 = {body: body, title: title};
+      let thumbnail = _this.refs.thumbnail.getValue();
+      let data2 = {body: body, title: title, thumbnail: thumbnail};
+      //let data2 = {body: body, title: title};
         _this.setState({
         processing: false,
         uploaded_uri: _this.state.data_uri,
@@ -140,7 +144,7 @@ export default class Pitch extends React.Component {
 
     let renderedResult;
     const style = {
-    height: '300px',
+    height: '400px',
     width: '100%',
     textAlign: 'center',
     display: 'inline-block',
@@ -175,6 +179,8 @@ export default class Pitch extends React.Component {
           <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Title"  hintText="Enter Title of Pitch" ref = "title" name="title"/>
           <br/>
           <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Description"  hintText="Enter description of pitch" ref = "description" name="description"/>          
+          <br/>
+          <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Thumbnail"  hintText="Link to thumbnail image" ref = "thumbnail" name="thumbnail"/>          
           <br/>
             <input type="file" name="file" onChange={this.handleFile} />
             <br/>

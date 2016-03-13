@@ -77,7 +77,7 @@ class PostsActions {
   }
 
   upvotePostSuccess() {
-  	this.dispatch(id);
+  	this.dispatch();
   }
 
   upvotePostError() { 
@@ -119,7 +119,7 @@ class PostsActions {
   }
 
   editPostSuccess(id, pid, data) {
-  	this.dispatch(id, pid, data);
+  	this.dispatch(data);
   }
 
   editPostError() {
@@ -140,7 +140,7 @@ class PostsActions {
   }	
 
   addNestedCommentSuccess(id, data) {
-  	this.dispatch(id, data);
+  	this.dispatch(data);
   }
 
   addNestedCommentError(){
@@ -161,7 +161,7 @@ class PostsActions {
   }	
 
   removePostSuccess(uid, pid) {
-  	this.dispatch(uid, pid);
+  	this.dispatch();
   }
 
   removePostError() {

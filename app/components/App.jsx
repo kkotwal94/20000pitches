@@ -1,6 +1,8 @@
 import React from 'react';
 import AltContainer from 'alt-container';
 import UserStore from 'stores/UserStore';
+import PostsStore from 'stores/PostsStore';
+import CommentsStore from 'stores/CommentsStore';
 import Navigation from 'components/Navigation';
 import 'scss/main';
 import injectTapEventPlugin from 'react-tap-event-plugin';

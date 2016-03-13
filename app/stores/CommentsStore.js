@@ -77,7 +77,7 @@ class CommentsStore {
     this.emitChange();
   }
 
-  handleGetCommentSuccess() {
+  handleGetCommentSuccess(data) {
     this.emitChange();
   }
 
@@ -89,7 +89,7 @@ class CommentsStore {
     this.emitChange();
   }
 
-  handleCreateCommentSuccess() {
+  handleCreateCommentSuccess(data) {
     this.emitChange();
   }
 
@@ -101,7 +101,7 @@ class CommentsStore {
     this.emitChange();
   }
 
-  handleEditCommentSuccess() {
+  handleEditCommentSuccess(data) {
     this.emitChange();
   }
 
@@ -113,7 +113,7 @@ class CommentsStore {
     this.emitChange();
   }
 
-  handleUpvoteCommentSuccess() {
+  handleUpvoteCommentSuccess(commentid) {
     this.emitChange();
   }
 
@@ -125,7 +125,7 @@ class CommentsStore {
     this.emitChange();
   }
 
-  handleDownvoteCommentSuccess() {
+  handleDownvoteCommentSuccess(commentid) {
     this.emitChange();
   }
 
@@ -146,6 +146,7 @@ class CommentsStore {
   }
 
 }
+
 
 // Export our newly created Store
 export default alt.createStore(CommentsStore, 'CommentsStore');

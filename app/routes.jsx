@@ -8,7 +8,7 @@ import Profile from 'components/Profile';
 import LoginSignupPage from 'components/LoginSignupPage';
 import Gallery from 'components/Gallery';
 import Pitch from 'components/Pitch';
-
+import ViewPitch from 'components/ViewPitch';
 import UserStore from 'stores/UserStore';
 
 
@@ -27,5 +27,6 @@ export default (
     <Route path="pitch" component={Pitch} onEnter={requireAuth}/>
     <Route path="login" component={LoginSignupPage} />
     <Route path="gallery" component={Gallery} />
+    <Route path="/gallery/:id" component={ViewPitch}/>   
   </Route>
 );

@@ -53,7 +53,7 @@ class PostsStore {
       handleAllPostsError: PostsActions.ALL_POSTS_ERROR,
       handleGetPosts: PostsActions.GET_POSTS,
       handleGetPostsSuccess: PostsActions.GET_POSTS_SUCCESS,
-      handleGetPostsError: PostsActions.GET_POST_ERROR,
+      handleGetPostsError: PostsActions.GET_POSTS_ERROR,
       handleGetNestedComments: PostsActions.GET_NESTED_COMMENTS,
       handleGetNestedCommentsSuccess: PostsActions.GET_NESTED_COMMENTS_SUCCESS,
       handleGetNestedCommentsError: PostsActions.GET_NESTED_COMMENTS_ERROR,
@@ -76,10 +76,8 @@ class PostsStore {
     });
   }
 
-  bootstrap() {/*
-    if (!Immutable.Map.isMap(this.posts)) {
-      this.posts = Immutable.fromJS(this.posts);
-    }*/
+  bootstrap() {
+    this.posts = [];
   }
 
   handleAllPosts() {
@@ -88,6 +86,7 @@ class PostsStore {
 
   handleAllPostsSuccess(data) {
     this.posts = data;
+    //console.log(data);
     this.emitChange();
   }
 
@@ -148,7 +147,7 @@ class PostsStore {
     this.emitChange();
   }
 
-  handleEditPostSuccess(uid, pid, data) {
+  handleEditPostSuccess(data) {
     this.emitChange();
   }
 
@@ -160,11 +159,11 @@ class PostsStore {
     this.emitChange();
   }
 
-  handleAddNestedCommentSuccess(id, data) {
+  handleAddNestedCommentSuccess(data) {
     this.emitChange();
   }
 
-  handleNestedCommentError() {
+  handleAddNestedCommentError() {
     this.emitChange();
   }
 

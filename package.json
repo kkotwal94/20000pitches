@@ -52,6 +52,7 @@
     "express-useragent": "~0.2.0",
     "extract-text-webpack-plugin": "^0.8.1",
     "file-loader": "^0.8.4",
+    "fluent-ffmpeg": "^2.0.1",
     "gridfs-stream": "^1.1.1",
     "history": "^1.9.1",
     "html-loader": "^0.3.0",

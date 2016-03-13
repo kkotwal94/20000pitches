@@ -12,12 +12,13 @@ var mongoose = require('mongoose');
 var _ = require('lodash');
 //var mongo = require('mongodb');
 var fs = require("fs");
-
+var thumbler = require('video-thumb');
 var Header = require('../../public/assets/header.server');
 var App = require('../../public/assets/app.server');
 var useragent = require('express-useragent');
 var Busboy = require('busboy');
 var Grid = require('gridfs-stream');
+var ffmpeg = require('fluent-ffmpeg');
   Grid.mongo = mongoose.mongo;
   var gfs = Grid(mongoose.connection.db);
 module.exports = function(app, io, passport) {
@@ -107,7 +108,7 @@ module.exports = function(app, io, passport) {
   //console.log(req.body);
   
   busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-    console.log('got file', filename, mimetype, encoding);
+    //console.log('got file', filename, mimetype, encoding);
     var writeStream = gfs.createWriteStream({
       _id: fileId,
       filename: filename,
@@ -119,19 +120,25 @@ module.exports = function(app, io, passport) {
     // show a link to the uploaded file
     req.user.videos.push(fileId);
     req.user.save();
-    console.log(req.user);
+    //console.log(req.user);
     res.writeHead(200, {'content-type': 'text/html'});
     res.end('<a href="/file/' + fileId.toString() + '">download file</a>');
+
+    
+    /*var proc = new ffmpeg('/Documents/20000pitches/parkour.mp4')
+  .takeScreenshots({
+      count: 1,
+      timemarks: [ '600' ] // number of seconds
+    }, '/', function(err) {
+    console.log('screenshots were saved')
+  });
+*/
   });
 
   req.pipe(busboy);
 });
 
-  app.get('/file/video/:id', function(req, res) {
-    var video_id = req.param.id;
-    var gfs = req.gfs;
 
-  });
 
 app.get('/file/:id', function(req, res) {
   gfs.findOne({ _id: req.params.id }, function (err, file) {

@@ -20,8 +20,7 @@ exports.createPost = function(req, res) {
 	 var posts = new Post(req.body);
         var myDate = Date();
         posts.date = myDate;
-        
-        
+        console.log(req.body.body);
        
         User.findById(req.user.id, function (err, user) {
             
