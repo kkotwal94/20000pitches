@@ -5,7 +5,7 @@ import UserActions from 'actions/UserActions';
 import UserStore from 'stores/UserStore';
 import Immutable from 'immutable';
 import style from 'scss/components/_layout';
-import { PropTypes } from 'react-router';
+import { PropTypes, Link} from 'react-router';
 const { 
       Menu,
       Card,
@@ -57,9 +57,50 @@ export default class Gallery extends React.Component {
   _onChanges = () => {
   	this.setState({
       posts: PostsStore.getState().posts,
+      postsCopy: PostsStore.getState().posts,
       singleposts: PostsStore.getState().singleposts,
       nestedComments: PostsStore.getState().nestedComments
     });
+  }
+
+  _upvote = () => {
+    //upvote here
+    console.log("Im upvoting this post");
+  }
+
+  _authorSearch = (event) => {
+    let updatedList = this.state.postsCopy;
+    updatedList = updatedList.filter(function(item) {
+      return item.author.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+});
+    this.setState({posts: updatedList});
+  }
+
+  _titleSearch = (event) => {
+     let updatedList = this.state.postsCopy;
+    updatedList = updatedList.filter(function(item) {
+      return item.title.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+    });
+    this.setState({posts: updatedList});
+  }
+  
+
+  _likesSearch = (event) => {
+  let updatedList = this.state.postsCopy;
+    updatedList = updatedList.filter(function(item) {
+      return item.likes.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+  });
+    this.setState({posts: updatedList});
+  
+  }
+
+  _viewsSearch = (event) => {
+  let updatedList = this.state.postsCopy;
+    updatedList = updatedList.filter(function(item) {
+      return item.views.toLowerCase().search(event.target.value.toLowerCase()) !== -1;
+  });
+    this.setState({posts: updatedList});
+  
   }
 
   render() {
@@ -70,7 +111,7 @@ export default class Gallery extends React.Component {
 
   	let displayNodes = posts.map((post, key) =>
   			
-	       		<div className = {style.col + ' ' + style.col__col312} id = {"gallery" + key} key = {key}> 
+	       		<div className = {style.col + ' ' + style.col__col312} style={{minHeight: "590px"}}id = {"gallery" + key} key = {key}> 
 	  			<Card>
 	  				<CardHeader
 	  					title={post.title}
@@ -79,12 +120,17 @@ export default class Gallery extends React.Component {
 	  				<CardMedia>
 	  					<img style={{maxHeight:'400px'}} src={post.thumbnail} />
 	  				</CardMedia>
-	  				<CardText>
-	  				Pitch Description
+	  				<CardText style={{textOverflow: "ellipsis",
+    width: "95%",
+    whiteSpace: "nowrap",
+    overflow: "hidden"}} >
+	  				{post.body}
+            <br/>
+            <Link to={"/user/" + post.owner}>{"By " + post.author}</Link>
 	  				</CardText>
 	  				<CardActions>
-	  					<FlatButton label="View"/>
-	  					<FlatButton label="Like"/>
+	  					<Link to={"/gallery/" + post._id}><FlatButton label="View"/></Link>
+	  					<FlatButton label="Like" onClick={this._upvote}/>
 	  				</CardActions>
 	  			</Card>
 
@@ -94,8 +140,11 @@ export default class Gallery extends React.Component {
 	  		)
     return (
       <div className={styles.about}>
-        <h1 className={styles.about__header}>Gallery page</h1>
-        	<p className={styles.about__description}>Gallery stuff</p>
+        <h1 style={{textAlign: "center"}}>Gallery</h1>
+        	<TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Search by Pitch Title"  hintText="Search by Pitch Title" ref = "title" name="title" onChange={this._titleSearch}/> &nbsp;
+          <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Search by Pitch Author"  hintText="Search by Pitch Author" ref = "author" name="author" onChange={this._authorSearch}/> &nbsp;
+          <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Search by Pitch Likes"  hintText="Search by Pitch Likes" ref = "likes" name="likes" onChange={this._likesSearch}/> &nbsp;
+          <TextField floatingLabelStyle = {{color: 'black'}} inputStyle = {{color: 'black'}} hintStyle = {{color: 'black'}} floatingLabelText="Search by Pitch Views"  hintText="Search by Pitch views" ref = "views" name="views" onChange={this._viewsSearch}/> &nbsp;
         	<div id="gallery">
         	<div className = {style.row + ' ' + style.row__group}>
 	       	{displayNodes}

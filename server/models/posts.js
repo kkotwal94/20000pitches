@@ -12,7 +12,7 @@ var PostSchema = new mongoose.Schema({
     comments  : [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }],
     allComments : {type: Number, default: 0},
     owner     : { type:mongoose.Schema.Types.ObjectId, ref: 'User'},
-    views     : Number
+    views     : { type:Number, default: 0}
 });
 
 

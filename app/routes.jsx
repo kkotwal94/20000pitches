@@ -10,6 +10,7 @@ import Gallery from 'components/Gallery';
 import Pitch from 'components/Pitch';
 import ViewPitch from 'components/ViewPitch';
 import UserStore from 'stores/UserStore';
+import UserView from 'components/UserView';
 
 
 function requireAuth(nextState, replaceState) {
@@ -28,5 +29,6 @@ export default (
     <Route path="login" component={LoginSignupPage} />
     <Route path="gallery" component={Gallery} />
     <Route path="/gallery/:id" component={ViewPitch}/>   
+    <Route path="/user/:id" component={UserView} />
   </Route>
 );

@@ -18,6 +18,7 @@ var commonLoaders = [
   { test: /\.png$/, loader: "url-loader" },
   { test: /\.jpg$/, loader: "file-loader" },
   { test: /\.html$/, loader: "html-loader" },
+  { test: /\.css$/, loader: 'style-loader!css-loader'},
   { test: /\.scss$/,
     loader: ExtractTextPlugin.extract('style', 'css?module&localIdentName=[local]__[hash:base64:5]' +
       '&sourceMap!sass?sourceMap&outputStyle=expanded' +
@@ -71,7 +72,7 @@ module.exports = [
       loaders: commonLoaders
     },
     resolve: {
-      extensions: ['', '.react.js', '.js', '.jsx', '.scss'],
+      extensions: ['', '.react.js', '.js', '.jsx', '.scss', '.css'],
       modulesDirectories: [
         "app", "node_modules"
       ]
@@ -103,7 +104,7 @@ module.exports = [
       loaders: commonLoaders
     },
     resolve: {
-      extensions: ['', '.react.js', '.js', '.jsx', '.scss'],
+      extensions: ['', '.react.js', '.js', '.jsx', '.scss', '.css'],
       modulesDirectories: [
         "app", "node_modules"
       ]

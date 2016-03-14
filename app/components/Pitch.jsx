@@ -102,7 +102,7 @@ export default class Pitch extends React.Component {
         uploaded_uri: _this.state.data_uri,
         creating: true,
         title: title,
-        description: description
+        body: body
       });
         const promise2 = $.ajax({
           url: '/posts',
@@ -205,7 +205,7 @@ export default class Pitch extends React.Component {
           <h1>Post is complete!</h1>
           <h1>View Post here!</h1>
           <h4>{this.state.title}</h4>
-          <h4>{this.state.description}</h4>
+          <h4>{this.state.body}</h4>
           <RaisedButton label="Create another pitch!" primary={true} onTouchTap={this._handleTouchTap}/>
           <br/>
           

@@ -34,7 +34,7 @@ class PostsStore {
     // Instance variables defined anywhere in the store will become the state. You can initialize these in the constructor and
     // then update them directly in the prototype methods
     this.posts = [];
-    this.singlePost = [];
+    //this.singlePost = [];
     this.nestedComments = [];
 
 
